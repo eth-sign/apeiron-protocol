@@ -1,5 +1,5 @@
 ---
-eip: 1492
+eip: 
 title: Apeiron
 author: German Abal Bazzano (@ariutokintumi)
 discussions-to: https://twitter.com/EIP1492
@@ -17,11 +17,11 @@ A fully decentralized and secure tokenization protocol that ensures complete own
 
 ## Abstract
 
-The following standard allows for the implementation of a standard API for Signs within Consoles (Proxy Smart Contracts) and Cartridges (Execution Smart Contracts). This standard provides functionality to deploy a standard Console and a standard Cartridge (the first Cartridge version IS named 'Pong') which guarantees their full compliance to the EIP-1492 (Apeiron) protocol using EXTCODEHASH whitelists. 
+The following standard allows for the implementation of a standard API for Signs within Consoles (Proxy Smart Contracts) and Cartridges (Execution Smart Contracts). This standard provides functionality to deploy a standard Console and a standard Cartridge (the first Cartridge version IS named 'Pong') which guarantees their full compliance to the Apeiron Protocol using EXTCODEHASH whitelists. 
 
 The Console is responsible for creating, storing, and deleting Signs by modifying ONLY their metadata and shielding the integrity of the tokens mapping. Cartridge runs the functions to operate with the Signs and transacts with remote Consoles only by compliance. The Console will mint and burn Signs and modify ONLY the metadata of the Signs, by the Cartridge requests, not being capable to modify other token information at all. The Signs validation/certification happens on the metadata layer and is, in most cases, an off-chain process, unless a user wants to store it fully on-chain, something not relevant at this point.
 
-Diagram of the EIP-1492 Handshake:
+Diagram of the Apeiron Protocol Handshake:
 
                              +-----------+                                   +-----------+ 
                              | Cartridge |                                   | Cartridge |
@@ -33,13 +33,13 @@ Diagram of the EIP-1492 Handshake:
 
 On the Handshake both Consoles check the EXTCODEHASH of the remote Console and Cartridge. If both (Console and Cartridge) are whitelisted, for both of the Consoles, it proceeds normally with the requested User tx, which can go through or be reverted depending on other circumstantial factors but not depending on the protocol. i.e. an unexpected token pull/push request.
 
-Note that for the EIP-1492 Apeiron compliance, both Consoles smart contracts MUST have identical code (but MUST NOT be the same contract address), but the Cartridge smart contracts address could be the same (not strictly necessary but is the recommendation) since the code MUST be exactly the same for this proposal.
+Note that for the Apeiron Protocol compliance, both Consoles smart contracts MUST have identical code (but MUST NOT be the same contract address), but the Cartridge smart contracts address could be the same (not strictly necessary but is the recommendation) since the code MUST be exactly the same for this proposal.
 
 We have considered use cases where Signs are minted, owned, and transacted by Consoles through the Cartridges compliance functionality. Consoles are owned only by individuals and transacted by the owner and other Consoles, with the option to grant permissions to third-party 'operators'. Signs are a representation token that provides total ownership (not just rights) of any hashable or relational thing, object, and asset, using a direct relational algorithm/fingerprint of it, something that MUST be defined by each project information. The Signs have the property to represent anything on-chain, so they can be directly related to digital content, abstraction, or physical object. We have considered a diverse universe of assets, and we know you will dream up many more. The goal is to achieve decentralization, ownership, relationship, and verification, which NFTs (ERC-721 and ERC-1155) cannot deliver, but many other opportunities are coming with this Console/Cartridge architecture.
 
 To accomplish this objective, we need to ensure the origin and credibility of the tokens. Thus, the Consoles provide the users and Cartridges the ability to mint Signs but never alter them, except for the metadata which can change as many times as is needed. This guarantees that the tokens cannot be duplicated or re-minted as the same, not even by the Console owner in the same Proxy Smart Contract Storage.
 
-Let's explore the structure of the EIP-1492 token (Signs) mapping on the Console Storage. This mapping has only the write permission to the Console functions and cannot be directly altered by Cartridges or the smart contract owner.
+Let's explore the structure of the Apeiron Protocol token (Signs) mapping on the Console Storage. This mapping has only the write permission to the Console functions and cannot be directly altered by Cartridges or the smart contract owner.
 
         +-----------------+--------------+----------------+
         | string tokenId  | uint256 key  | byte metadata  |
@@ -69,27 +69,27 @@ Many security and critical considerations are taken and listed in the sections, 
 
 ## Motivation
 
-A standard interface facilitates wallets, brokers, social, gaming, and marketplace dApps to interact seamlessly and with confidence with any Console on the Ethereum network grid. This is particularly provided for ERC-1492 smart contracts, otherwise known as Consoles, vaults, or nodes of the grid, that are capable of owning and managing Signs through compliance Cartridges. Further applications will be explored in the following sections.
+A standard interface facilitates wallets, brokers, social, gaming, and marketplace dApps to interact seamlessly and with confidence with any Console on the Ethereum network grid. This is particularly provided for Apeiron Protocol smart contracts, otherwise known as Consoles, vaults, or nodes of the grid, that are capable of owning and managing Signs through compliance Cartridges. Further applications will be explored in the following sections.
 
-This EIP-1492 Apeiron token standard builds upon the well-known ERC-721 token standard, drawing from four years of collective experience since its introduction. However, ERC-721 design has inherent centralization, security shortcomings, and an insufficient framework for correlating tokens with their intended representations. This is primarily due to the lack of direct on-chain connection or relationship between each asset and its representation, thus requiring off-chain information for this purpose. In stark contrast, Signs are fully decentralized, and secure, and provide complete ownership to the Console owner. They are also directly connected to their representation on-chain, thereby offering a more robust and reliable solution for asset ownership and verification.
+This Apeiron Protocol token standard builds upon the well-known ERC-721 token standard, drawing from four years of collective experience since its introduction. However, ERC-721 design has inherent centralization, security shortcomings, and an insufficient framework for correlating tokens with their intended representations. This is primarily due to the lack of direct on-chain connection or relationship between each asset and its representation, thus requiring off-chain information for this purpose. In stark contrast, Signs are fully decentralized, and secure, and provide complete ownership to the Console owner. They are also directly connected to their representation on-chain, thereby offering a more robust and reliable solution for asset ownership and verification.
 
 ## Specification
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in RFC 2119.
 
-**Every ERC-1492 compliant contract must be verified by the `ERC1942compliance` function before any transaction** (subject to "caveats" below):
+**Every Apeiron Protocol compliant contract must be verified by the `ERC1942compliance` function before any transaction** (subject to "caveats" below):
 
 ```solidity
 pragma solidity ^0.8.0;
 
-/// @title ERC-1492 Apeiron
-/// @dev See https://github.com/eth-sign/eip-1492
-/// Note: the ERC-1492 Console and Cartridge interface is under development, be patient while we 
-/// finish this approach to deliver something great to the community. There is many bugs or 
-/// pseudo-code in here right now, I like to work public so visitors can see the pgrogress and 
+/// @title Apeiron Protocol
+/// @dev See https://github.com/eth-sign/apeiron-protocol
+/// Note: the Apeiron Protocol Console and Cartridge interface is under development, be patient 
+/// while we finish this approach to deliver something great to the community. There is many bugs 
+/// or pseudo-code in here right now, I like to work public so visitors can see the pgrogress and 
 /// visualize the 'spirit' of the EIP.
 
-interface ERC1492 {
+interface APEIRON {
     /// @dev This emits when an Sign will be sent to a Console. This event
     /// emits unit_256 _key value when Signs are created (`from` == 0).
     /// Exception: Any number of Signs can be created and assigned without
@@ -160,8 +160,8 @@ interface ERC1492 {
     /// @dev Throws unless `msg.sender` is the current owner, an authorized
     ///  operator for this Console or if `_to` is the zero address. 
     ///  Throws if `_key` is not valid. When transfer is complete, this function calls 
-    /// `onERC1492Received` on `_to` and throws if the return value is not
-    /// `bytes4(keccak256("onERC1492Received(address,uint256,uint256,string)"))`.
+    /// `onERCApeironReceived` on `_to` and throws if the return value is not
+    /// `bytes4(keccak256("onERCApeironReceived(address,uint256,uint256,string)"))`.
     /// @param _to The new Console
     /// @param _key The Sign token key value to transfer
     function safeTransferFrom(address _to, uint256 _key) external payable;
@@ -181,10 +181,10 @@ interface ERC1492 {
     function pullRequest (address _to, uint256 _key) external payable;
 
     /// @notice Receives a token from a Console
-    /// @dev Throws unless `msg.sender` is an Console EIP-1492 compliance checked by
+    /// @dev Throws unless `msg.sender` is an Console Apeiron Protocol compliance checked by
     /// ERC1942compliance function or Locking is 'true'. If address _from is 
     /// whitelisted the function will continue only if `msg.sender` is an Console 
-    /// EIP-1492 compliance.
+    /// Apeiron Protocol compliance.
     /// @param _to The Console approved to pull the Signs
     /// @param _key The Sign token key to be approved for transfer 
     function receiveTransfer (address _from, uint256 _key, pointer) external payable;
@@ -214,7 +214,7 @@ interface ERC1492 {
     /// @param _approved The value `true` or `false` to configure the state
     function SetLocking(bool _approved) external payable;
 
-    /// @notice Query if a remote Console is compliance with EIP-1492 using the EXTCODEHASH
+    /// @notice Query if a remote Console is compliance with Apeiron Protocol using the EXTCODEHASH
     /// @stored The function getRemoteExtCodeHash uses less than 700 gas
     /// @return a string `true` if the remote contract EXTCODEHASH is the expected or 
     /// `false` if is not.
@@ -227,7 +227,7 @@ interface ERC1492 {
 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////////
-// EIP-1492 CONSOLE
+// APEIRON PROTOCOL CONSOLE
 // 
 // Console Functions:
 // 
@@ -287,9 +287,9 @@ interface ERC1492 {
 // 		-'pre_aprobe_new_owner_values' list of addresses that can request an 'owner' change in their behalf.
 // 		-'operators_values' operator addresses that have the ability to manage Console functions related to common usage (a more detailed description will be provided in future commits).
 // 
-// Note: The Console can permit Cartridges to use its Storage (consideration might be given to creating Storage Gaps to facilitate this). The Console's storage can be utilized for the Cartridges' own purposes. For instance, an EIP-1492 compliant 'Pong' Cartridge can store its data in the Console. A point of discussion could be whether storage mappings should be restricted to certain Cartridges or if they should be accessible to any Cartridge.
+// Note: The Console can permit Cartridges to use its Storage (consideration might be given to creating Storage Gaps to facilitate this). The Console's storage can be utilized for the Cartridges' own purposes. For instance, an Apeiron Protocol compliant 'Pong' Cartridge can store its data in the Console. A point of discussion could be whether storage mappings should be restricted to certain Cartridges or if they should be accessible to any Cartridge.
 // 
-// Console Storage for EIP-1492 Cartridge functions:
+// Console Storage for Apeiron Protocol Cartridge functions:
 // 
 // 	Token Management:
 // 		-'push_waiting_list' waiting list to be used by 'push_i_token' function and written by 'token_waiting' function, it contains 'remote tokenId', 'remote key' + 'remote Console address'.
@@ -308,7 +308,7 @@ interface ERC1492 {
 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////////
 ////////////////////////////////////////////////////// 
-// EIP-1492 CARTRIDGE 'PONG'
+// APEIRON PROTOCOL CARTRIDGE 'PONG'
 // 
 // Cartridge Functions:
 // 
@@ -346,12 +346,12 @@ interface ERC1492 {
 ```
 A wallet/broker/auction application MUST implement the **wallet interface** if it will accept safe transfers.
 
-The **metadata extension** is OPTIONAL for ERC-1492 smart contracts (see "caveats", below). This allows your smart contract to be interrogated for its name and for details about the assets which your Signs is associated to.
+The **metadata extension** is OPTIONAL for Apeiron Protocol smart contracts (see "caveats", below). This allows your smart contract to be interrogated for its name and for details about the assets which your Signs is associated to.
 
 ```solidity
-/// @title ERC-1492 Sign, optional metadata extension
-/// @dev See https://github.com/eth-sign/eip-1492
-interface ERC1492Metadata /* is ERC1492 */ {
+/// @title Apeiron Protocol Sign, optional metadata extension
+/// @dev See https://github.com/eth-sign/apeiron-protocol
+interface ERCApeironMetadata /* is Apeiron Protocol */ {
     /// @notice A descriptive name for a collection of Signs in this contract
     function name() external view returns (string _name);
 
@@ -360,13 +360,13 @@ interface ERC1492Metadata /* is ERC1492 */ {
 
     /// @notice A distinct Uniform Resource Identifier (URI) for a given asset.
     /// @dev Throws if `_key` is not a valid Sign. URIs are defined in RFC
-    ///  3986. The URI may point to a JSON file that conforms to the "ERC1492
+    ///  3986. The URI may point to a JSON file that conforms to the "Apeiron Protocol
     ///  Metadata JSON Schema". It can be compressed using 'brotli' algorithm.
     function tokenURI(uint256 _key) external view returns (string);
 }
 ```
 
-This is the "ERC1492 Metadata JSON Schema" referenced above.
+This is the "Apeiron Protocol Metadata JSON Schema" referenced above.
 
 ```json
 {
@@ -415,13 +415,13 @@ The Proxy smart contract is responsible for creating, securing, and storing toke
 
 **"Signs" Word Choice**
 
-'Signs' is a reference to 'signature', inspired by one of the primary features of EIP-1492 tokens: their relationship with the entity they originate from. This term found wide acceptance among virtually everyone who was NOT surveyed, and is applicable to an extensive range of distinguishable digital assets. Previously, we used a different name, FCS (First Come Signature), due to its relevance in the context of social networks, something that originated and inspired us to build this standard. However, we ultimately decided that 'sign' is more descriptive for most applications of this standard. Therefore, we will refer to these as 'sign' or 'signs' moving forward. (and back!).
+'Signs' is a reference to 'signature', inspired by one of the primary features of Apeiron Protocol tokens: their relationship with the entity they originate from. This term found wide acceptance among virtually everyone who was NOT surveyed, and is applicable to an extensive range of distinguishable digital assets. Previously, we used a different name, FCS (First Come Signature), due to its relevance in the context of social networks, something that originated and inspired us to build this standard. However, we ultimately decided that 'sign' is more descriptive for most applications of this standard. Therefore, we will refer to these as 'sign' or 'signs' moving forward. (and back!).
 
 *Alternatives considered: FCS, syn, Apeiron (now is the Protocol name), real NFT, NFT*
 
 **Sign Identifiers**
 
-Each Sign is identified by a unique pair of 'string' and 'uint256 auto-incremental' values, namely the 'tokenId' and the 'key' respectively, within an ERC-1492 smart contract address in a specific chain. It is NOT possible for the identifiers to change over the lifetime of the contract once are mapped, except on the deletion. Therefore, the combination of the '(contract address, string tokenId, uint256 key, chain)' will be a globally unique and fully-qualified identifier for a specific asset on an EVM compatible chain. The 'tokenId' and 'key' should be treated as a "black box", and it is important to note that Signs can be destroyed/deleted by the functions included in the first standard EIP-1492 Cartridge, called "Pong". This happens because of a transfer or on a Console owner request.
+Each Sign is identified by a unique pair of 'string' and 'uint256 auto-incremental' values, namely the 'tokenId' and the 'key' respectively, within an Apeiron Protocol smart contract address in a specific chain. It is NOT possible for the identifiers to change over the lifetime of the contract once are mapped, except on the deletion. Therefore, the combination of the '(contract address, string tokenId, uint256 key, chain)' will be a globally unique and fully-qualified identifier for a specific asset on an EVM compatible chain. The 'tokenId' and 'key' should be treated as a "black box", and it is important to note that Signs can be destroyed/deleted by the functions included in the first standard Apeiron Protocol Cartridge, called "Pong". This happens because of a transfer or on a Console owner request.
 
 The choice of `string` for the tokenId allows a wide variety of representation applications, that in conjuntion with the metadata implementation will bring infinite possibilities to the developers.
 
@@ -434,7 +434,7 @@ This pre-draft is derived from the ERC-721 proposal as 'template'. As such, this
 We have analyzed many potential threats to the protocol, and we know there is more. Here is a list of the detected ones and the solution implemented.
 
 - Proxy Smart Contract administration and functions
-We explored various alternatives, including the Transparent Proxy by OpenZeppelin. However, this excellent solution wasn't practical for EIP-1492 since the contract administrator would need continuous interaction with it. Therefore, our resolution involved defining an admin function for the Proxy smart contract and securing it, adding 'EIP-1967: Proxy Storage Slots' policies to prevent Storage collisions. It's crucial to never accept a Cartridge as compliant if it contains functions that conflict with the Console functions, based on the first four bytes of the function selector. If such a conflict occurs, the Cartridge functions selectors must be modified. Also the fallback functions should be dissabled.
+We explored various alternatives, including the Transparent Proxy by OpenZeppelin. However, this excellent solution wasn't practical for Apeiron Protocol since the contract administrator would need continuous interaction with it. Therefore, our resolution involved defining an admin function for the Proxy smart contract and securing it, adding 'EIP-1967: Proxy Storage Slots' policies to prevent Storage collisions. It's crucial to never accept a Cartridge as compliant if it contains functions that conflict with the Console functions, based on the first four bytes of the function selector. If such a conflict occurs, the Cartridge functions selectors must be modified. Also the fallback functions should be dissabled.
 At one point we contemplated utilizing Libraries instead of Execution smart contracts for the Cartridges. However, we concluded that not only does this approach make rapid development more challenging, but Libraries also pose a significant risk to the integrity of the Proxy smart contract tokens mapping. This integrity is paramount, and Libraries could potentially manipulate functions in unforeseen ways.
 
 - Protocol Compliance
