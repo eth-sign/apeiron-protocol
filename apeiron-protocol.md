@@ -2,7 +2,7 @@
 eip: 
 title: Apeiron
 author: German Abal Bazzano (@ariutokintumi)
-discussions-to: https://twitter.com/EIP1492
+discussions-to: https://twitter.com/ApeironProtocol
 type: Standards Track
 category: ERC
 status: Pre-Draft
