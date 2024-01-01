@@ -13,29 +13,29 @@ requires:
 
 ## Simple Summary
 
-A fully decentralized and secure tokenization protocol that ensures complete ownership of our tokens, referred to as 'Signs'. These Signs maintain a direct on-chain correlation with what they represent and can move through the grid formed by all the protocol users. Additionally, each Sign can be authenticated through digital signatures embedded within its metadata.
+A fully decentralized and secure tokenization protocol that ensures complete ownership of tokens, referred to as 'Signs'. These Signs maintain a direct on-chain correlation with what they represent and can move through the grid formed by all the protocol users. Additionally, each Sign can be authenticated through digital signatures embedded within its metadata.
 
 ## Abstract
 
-The following standard allows for the implementation of a standard API for Signs within Consoles (Proxy Smart Contracts) and Cartridges (Execution Smart Contracts). This standard provides functionality to deploy a standard Console and a standard Cartridge (the first Cartridge version IS named 'Pong') which guarantees their full compliance to the Apeiron Protocol using EXTCODEHASH whitelists. 
+The following standard allows for the implementation of a standard API for Signs within Consoles (Proxy Smart Contracts) and Cartridges (Execution Smart Contracts). This standard provides functionality to deploy a Console and a Cartridge (the first Cartridge version IS named 'Pong' and we are trying to push the first standard in the use cases) which guarantees their full compliance to the Apeiron Protocol using EXTCODEHASH whitelists. 
 
-The Console is responsible for creating, storing, and deleting Signs by modifying ONLY their metadata and shielding the integrity of the tokens mapping. Cartridge runs the functions to operate with the Signs and transacts with remote Consoles only by compliance. The Console will mint and burn Signs and modify ONLY the metadata of the Signs, by the Cartridge requests, not being capable to modify other token information at all. The Signs validation/certification happens on the metadata layer and is, in most cases, an off-chain process, unless a user wants to store it fully on-chain, something not relevant at this point.
+The Console is responsible for creating, storing, and deleting Signs by modifying ONLY their metadata and shielding the integrity of the tokens mapping. Cartridges runs the functions to operate with the Signs and transacts with remote Consoles only by compliance. The Console will mint and burn Signs and modify ONLY the metadata of the Signs, by the Cartridge requests, not being capable to modify other token information at all. The Signs validation/certification happens on the metadata layer and is, in most cases, an off-chain process, unless a user wants to store it fully on-chain, something not relevant at this point.
 
 Diagram of the Apeiron Protocol Handshake:
 
-                             +-----------+                                   +-----------+ 
-                             | Cartridge |                                   | Cartridge |
-                             +-----------+                                   +-----------+ 
-        User ----- tx -----> | Console 1 | <------ EXTCODEHASH CHECKS -----> | Console 2 |
-                             +-----------+                                   +-----------+
-                             |   Signs   |                                   |   Signs   |
-                             +-----------+                                   +-----------+ 
+                             +-----------+                                  +-----------+ 
+                             |   Signs   |                                  |   Signs   |
+                             +-----------+                                  +-----------+ 
+        User ----- tx -----> | Console 1 | <------ EXTCODEHASH CHECK -----> | Console 2 |
+                             +-----------+                                  +-----------+
+                             | Cartridge |                                  | Cartridge |
+                             +-----------+                                  +-----------+ 
 
-On the Handshake both Consoles check the EXTCODEHASH of the remote Console and Cartridge. If both (Console and Cartridge) are whitelisted, for both of the Consoles, it proceeds normally with the requested User tx, which can go through or be reverted depending on other circumstantial factors but not depending on the protocol. i.e. an unexpected token pull/push request.
+On the Handshake both Consoles check the EXTCODEHASH of the remote Console and remote Cartridge. If both (Console and Cartridge) are whitelisted, for both of the Consoles, it proceeds with the requested User transaction, which can go through or be reverted depending on other circumstantial factors but not depending on the protocol Handshake. i.e. an unexpected token pull/push request.
 
-Note that for the Apeiron Protocol compliance, both Consoles smart contracts MUST have identical code (but MUST NOT be the same contract address), but the Cartridge smart contracts address could be the same (not strictly necessary but is the recommendation) since the code MUST be exactly the same for this proposal.
+Note that for the Apeiron Protocol compliance, both Consoles smart contracts MUST have whitelisted the remoete EXTCODEHASH but MUST NOT be the same Console contract address, while the Cartridge smart contracts address could be the same (not strictly necessary but in fact the Catriges reusing is the recommendation) since the code MUST be the expected.
 
-We have considered use cases where Signs are minted, owned, and transacted by Consoles through the Cartridges compliance functionality. Consoles are owned only by individuals and transacted by the owner and other Consoles, with the option to grant permissions to third-party 'operators'. Signs are a representation token that provides total ownership (not just rights) of any hashable or relational thing, object, and asset, using a direct relational algorithm/fingerprint of it, something that MUST be defined by each project information. The Signs have the property to represent anything on-chain, so they can be directly related to digital content, abstraction, or physical object. We have considered a diverse universe of assets, and we know you will dream up many more. The goal is to achieve decentralization, ownership, relationship, and verification, which NFTs (ERC-721 and ERC-1155) cannot deliver, but many other opportunities are coming with this Console/Cartridge architecture.
+We have considered use cases where Signs are minted, owned, and transacted by Consoles through the Cartridges compliance functionality. Consoles are owned only by individuals and transacted by the owner and other Consoles, with the option to grant permissions to third-party 'operators'. Signs are a representation token that provides total ownership (not just rights) of any hashable or relational thing, object, and asset, using a direct relational algorithm/fingerprint of it, something that MUST be defined by each project information. The Signs have the property to represent anything on-chain, so they can be directly related to digital content, abstraction, or physical object. We have considered a diverse universe of assets, and we know you will dream up many more. The goal is to achieve decentralization, ownership, relationship, and verification, something NFTs (ERC-721 and ERC-1155) cannot deliver, but many other opportunities are coming with this Console/Cartridge architecture.
 
 To accomplish this objective, we need to ensure the origin and credibility of the tokens. Thus, the Consoles provide the users and Cartridges the ability to mint Signs but never alter them, except for the metadata which can change as many times as is needed. This guarantees that the tokens cannot be duplicated or re-minted as the same, not even by the Console owner in the same Proxy Smart Contract Storage.
 
